@@ -119,3 +119,69 @@ or `yarn`:
 ```sh
 yarn add --dev @protocolink/logics
 ```
+
+## Contribute to BEX Berachain
+1. Append the following JSON existing array in **node_modules/@protocolink/common/dist/networks/data.json**
+
+```json
+{
+        "id": "berachain",
+        "chainId": 80084,
+        "name": "Avalanche",
+        "explorerUrl": "https://snowtrace.io/",
+        "rpcUrl": "https://rpc.ankr.com/avalanche",
+        "nativeToken": {
+            "chainId": 80084,
+            "address": "0x0000000000000000000000000000000000000000",
+            "decimals": 18,
+            "symbol": "BERA",
+            "name": "Berachain Token",
+            "logoUri": "https://artio-static-asset-public.s3.ap-southeast-1.amazonaws.com/assets/bera.png"
+        },
+        "wrappedNativeToken": {
+            "chainId": 80084,
+            "address": "0x7507c1dc16935B82698e4C63f2746A2fCf994dF8",
+            "decimals": 18,
+            "symbol": "WBERA",
+            "name": "Wrapped Berachain Token",
+            "logoUri":"https://artio-static-asset-public.s3.ap-southeast-1.amazonaws.com/assets/wbera.png"
+        },
+        "multicall3Address": ""
+    }
+
+  ```
+2. Add Berachain to chainId && networkId in **node_modules/@protocolink/common/dist/networks/index.d.ts**
+
+  Those enums should be:
+  ```typescript
+export declare enum ChainId {
+    mainnet = 1,
+    optimism = 10,
+    bnb = 56,
+    gnosis = 100,
+    polygon = 137,
+    zksync = 324,
+    metis = 1088,
+    polygonZkevm = 1101,
+    base = 8453,
+    iota = 8822,
+    arbitrum = 42161,
+    avalanche = 43114,
+    berachain = 80084
+}
+export declare enum NetworkId {
+    mainnet = "mainnet",
+    optimism = "optimism",
+    bnb = "bnb",
+    gnosis = "gnosis",
+    polygon = "polygon",
+    zksync = "zksync",
+    metis = "metis",
+    polygonZkevm = "polygonZkevm",
+    base = "base",
+    iota = "iota",
+    arbitrum = "arbitrum",
+    avalanche = "avalanche",
+    berachain = "berachain"
+}
+  ```
