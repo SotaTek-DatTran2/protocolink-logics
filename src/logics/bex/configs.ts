@@ -14,9 +14,6 @@ export const configs: Config[] = [
     chainId: chainId,
     tokenTransferProxyAddress: '0x216B4B4Ba9F3e719726886d34a177484278Bfcae',
     tokenListUrls: [
-      // 'https://raw.githubusercontent.com/paraswap/community-token-list/master/src/sources/paraswap.extralist.json',
-      // 'https://raw.githubusercontent.com/bgd-labs/aave-address-book/main/tokenlist.json',
-      // 'https://tokens.uniswap.org',
       'https://raw.githubusercontent.com/berachain/default-lists/refs/heads/main/src/tokens/bartio/defaultTokenList.json',
     ],
   },
