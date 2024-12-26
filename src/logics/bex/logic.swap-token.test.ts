@@ -31,4 +31,12 @@ describe('BEX SwapTokenLogic', function () {
       )
     );
   });
+  it('should get swap token quotation', async () => {
+    const logic = new SwapTokenLogic(chainId);
+    const tokenList = await logic.getTokenList();
+    const tokenIn = tokenList[9]; //HONEY
+    const tokenOut = tokenList[7]; //WBERA
+    console.log(tokenIn);
+    console.log(tokenOut);
+  });
 });
