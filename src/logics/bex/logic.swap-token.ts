@@ -34,7 +34,10 @@ export type SwapTokenLogicFields = core.TokenToTokenExactInFields<{
   reserveFlags: number;
 }>;
 
-export type SwapTokenLogicOptions = Pick<core.GlobalOptions, 'account'>;
+export type SwapTokenLogicOptions = {
+  settlement?: boolean | { buyDexSurplus: boolean; sellDexSurplus: boolean };
+  gasEst?: bigint;
+};
 
 export class SwapTokenLogic
   extends core.Logic
@@ -95,8 +98,8 @@ export class SwapTokenLogic
     const inBaseQty = isBuy;
     const qty = Number(input.amount);
     const { slippage = DFLT_SWAP_ARGS.slippage, poolIdx } = params;
-    const surplusFlags = [false, false];
-    const maskSurplusArgs = encodeSurplusArg(surplusFlags as CrocSurplusFlags);
+    // const surplusFlags = [false, false];
+    // const maskSurplusArgs = encodeSurplusArg(surplusFlags as CrocSurplusFlags);
     //const amountOut = 10;
     const amountOut = await this.calcSlipQty(base, quote, poolIdx, isBuy, inBaseQty, qty, slippage);
     const output = new common.TokenAmount(tokenOut).setWei(amountOut);
@@ -110,12 +113,12 @@ export class SwapTokenLogic
       inBaseQty,
       qty,
       limitPrice: await this.calcLimitPrice(isBuy),
-      minOut: 0,
-      reserveFlags: maskSurplusArgs,
+      minOut: await this.calcSlipQty(base, quote, poolIdx, isBuy, inBaseQty, qty, slippage),
     };
   }
   async build(fields: SwapTokenLogicFields, options?: SwapTokenLogicOptions) {
-    const { input, baseToken, quoteToken, poolIdx, isBuy, inBaseQty, qty, limitPrice, minOut, reserveFlags } = fields;
+    const { input, baseToken, quoteToken, poolIdx, isBuy, inBaseQty, qty, limitPrice, minOut } = fields;
+    const reserveFlags = this.maskSurplusArgs(isBuy, options);
     const HOT_PROXY_IDX = 1;
     const TIP = 0;
     const abi = new AbiCoder();
@@ -165,6 +168,22 @@ export class SwapTokenLogic
     const slipQty = !qtyIsBuy ? parseFloat(sellQty) * (1 + slippage) : parseFloat(buyQty) * (1 - slippage);
 
     return !inBaseQty ? roundQty(slipQty, baseToken.decimals) : roundQty(slipQty, quoteToken.decimals);
+  }
+
+  private maskSurplusArgs(isBuy: boolean, args?: SwapTokenLogicOptions): number {
+    return encodeSurplusArg(this.maskSurplusFlags(isBuy, args));
+  }
+
+  private maskSurplusFlags(isBuy: boolean, args?: SwapTokenLogicOptions): CrocSurplusFlags {
+    if (!args || !args.settlement) {
+      return [false, false];
+    } else if (typeof args.settlement === 'boolean') {
+      return [args.settlement, args.settlement];
+    } else {
+      return isBuy
+        ? [args.settlement.sellDexSurplus, args.settlement.buyDexSurplus]
+        : [args.settlement.buyDexSurplus, args.settlement.sellDexSurplus];
+    }
   }
 }
 
