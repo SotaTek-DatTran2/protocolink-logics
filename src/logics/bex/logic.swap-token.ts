@@ -7,11 +7,9 @@ import { ethers } from 'ethers';
 import { AbiItem } from 'web3-utils';
 import { getTokenListUrls, supportedChainIds, getContractAddress } from './configs';
 import dotenv from 'dotenv';
-import CrocSwapDexAbi from './abis/CrocSwapDex';
-import CrocQueryAbi from './abis/CrocQuery';
-import { MAX_SQRT_PRICE, MIN_SQRT_PRICE } from './constants';
+import { CrocSwapDexAbi, CrocQueryAbi, CrocImpactAbi } from './abis/';
+import { MAX_SQRT_PRICE, MIN_SQRT_PRICE, DFLT_SWAP_ARGS } from './constants';
 import { CrocSurplusFlags, encodeSurplusArg } from './encoding/flags';
-import CrocImpactAbi from './abis/CrocImpact';
 import { roundQty, toDisplayQty } from './utils';
 import { AbiCoder } from 'ethers/lib/utils';
 dotenv.config();
@@ -47,8 +45,8 @@ export class SwapTokenLogic
   static protocolId = 'bex';
   static readonly supportedChainIds = supportedChainIds;
   web3 = new Web3(process.env.HTTP_RPC_URL!);
-  crocQuery = new this.web3.eth.Contract(CrocQueryAbi as AbiItem[], process.env.CROC_QUERY_CONTRACT!);
-  crocImpact = new this.web3.eth.Contract(CrocImpactAbi as AbiItem[], process.env.CROC_IMPACT_CONTRACT!);
+  crocQuery = new this.web3.eth.Contract(CrocQueryAbi as AbiItem[], getContractAddress(this.chainId, 'CrocQuery'));
+  crocImpact = new this.web3.eth.Contract(CrocImpactAbi as AbiItem[], getContractAddress(this.chainId, 'CrocImpact'));
 
   async getTokenList(): Promise<SwapTokenLogicTokenList> {
     const tokenListUrls = getTokenListUrls(this.chainId);
@@ -186,9 +184,3 @@ export class SwapTokenLogic
     }
   }
 }
-
-// Default slippage is set to 1%. User should evaluate this carefully for low liquidity
-// pools of when swapping large amounts.
-const DFLT_SWAP_ARGS = {
-  slippage: 0.01,
-};

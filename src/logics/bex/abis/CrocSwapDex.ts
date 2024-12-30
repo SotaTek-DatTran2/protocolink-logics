@@ -1,4 +1,4 @@
-const CrocSwapDexAbi = [
+export const CrocSwapDexAbi = [
   {
     inputs: [
       {
@@ -287,5 +287,3 @@ const CrocSwapDexAbi = [
     type: 'receive',
   },
 ];
-
-export default CrocSwapDexAbi;

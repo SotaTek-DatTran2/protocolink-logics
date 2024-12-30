@@ -1,4 +1,4 @@
-const CrocImpactAbi = [
+export const CrocImpactAbi = [
   {
     type: 'constructor',
     inputs: [
@@ -88,5 +88,3 @@ const CrocImpactAbi = [
     stateMutability: 'view',
   },
 ];
-
-export default CrocImpactAbi;

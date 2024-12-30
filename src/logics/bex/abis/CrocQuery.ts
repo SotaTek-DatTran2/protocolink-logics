@@ -1,4 +1,4 @@
-const CrocQueryAbi = [
+export const CrocQueryAbi = [
   {
     inputs: [
       {
@@ -925,5 +925,3 @@ const CrocQueryAbi = [
     type: 'function',
   },
 ];
-
-export default CrocQueryAbi;
