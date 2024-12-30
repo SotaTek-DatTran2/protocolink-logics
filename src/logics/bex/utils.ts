@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 export type TokenQty = bigint | string | number;
 export function fromDisplayQty(qty: string, tokenDecimals: number): bigint {

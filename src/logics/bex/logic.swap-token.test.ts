@@ -4,7 +4,6 @@ import { constants, utils } from 'ethers';
 import * as core from '@protocolink/core';
 import { expect } from 'chai';
 import { getTokenListUrls } from './configs';
-import { providers } from 'ethers';
 import dotenv from 'dotenv';
 dotenv.config();
 const chainId = Number(process.env.CHAIN_ID) || 1;
@@ -36,7 +35,54 @@ describe('BEX SwapTokenLogic', function () {
     const tokenList = await logic.getTokenList();
     const tokenIn = tokenList[9]; //HONEY
     const tokenOut = tokenList[7]; //WBERA
-    console.log(tokenIn);
-    console.log(tokenOut);
+    console.log(
+      await logic.quote({
+        input: new common.TokenAmount(
+          {
+            chainId: tokenIn.chainId,
+            address: tokenIn.address,
+            decimals: tokenIn.decimals,
+            symbol: tokenIn.symbol,
+            name: tokenIn.name,
+          },
+          '1'
+        ),
+        tokenOut: new common.Token({
+          chainId: tokenOut.chainId,
+          address: tokenOut.address,
+          decimals: tokenOut.decimals,
+          symbol: tokenOut.symbol,
+          name: tokenOut.name,
+        }),
+        poolIdx: 36000,
+      })
+    );
+  });
+  it('should build transaction', async () => {
+    const logic = new SwapTokenLogic(chainId);
+    const tokenList = await logic.getTokenList();
+    const tokenIn = tokenList[9]; //HONEY
+    const tokenOut = tokenList[7]; //WBERA
+    const quotation = await logic.quote({
+      input: new common.TokenAmount(
+        {
+          chainId: tokenIn.chainId,
+          address: tokenIn.address,
+          decimals: tokenIn.decimals,
+          symbol: tokenIn.symbol,
+          name: tokenIn.name,
+        },
+        '1000'
+      ),
+      tokenOut: new common.Token({
+        chainId: tokenOut.chainId,
+        address: tokenOut.address,
+        decimals: tokenOut.decimals,
+        symbol: tokenOut.symbol,
+        name: tokenOut.name,
+      }),
+      poolIdx: 36000,
+    });
+    console.log(await logic.build(quotation));
   });
 });

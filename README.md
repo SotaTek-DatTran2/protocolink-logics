@@ -185,3 +185,6 @@ export declare enum NetworkId {
     berachain = "berachain"
 }
   ```
+
+  test with hardhat
+  npx hardhat test src/logics/bex/logic.swap-token.test.ts 
