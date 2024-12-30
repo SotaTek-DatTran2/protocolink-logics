@@ -129,7 +129,7 @@ yarn add --dev @protocolink/logics
         "chainId": 80084,
         "name": "Avalanche",
         "explorerUrl": "https://snowtrace.io/",
-        "rpcUrl": "https://rpc.ankr.com/avalanche",
+        "rpcUrl": "https://bartio.rpc.berachain.com/",
         "nativeToken": {
             "chainId": 80084,
             "address": "0x0000000000000000000000000000000000000000",

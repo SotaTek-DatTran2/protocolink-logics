@@ -21,8 +21,8 @@ export const configs: Config[] = [
     ],
     contract: {
       CrocSwapDex: '0xAB827b1Cc3535A9e549EE387A6E9C3F02F481B49',
-      CrocQuery: '0xCfEa3579a06e2e9a596D311486D12B3a49a919Cd',
-      CrocImpact: '0x31DAc06019D983f79cEAc819fAAC0612518597D7',
+      CrocQuery: '0x31DAc06019D983f79cEAc819fAAC0612518597D7',
+      CrocImpact: '0xCfEa3579a06e2e9a596D311486D12B3a49a919Cd',
     },
   },
 ];

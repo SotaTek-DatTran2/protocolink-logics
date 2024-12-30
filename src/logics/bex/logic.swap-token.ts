@@ -6,13 +6,11 @@ import * as core from '@protocolink/core';
 import { ethers } from 'ethers';
 import { AbiItem } from 'web3-utils';
 import { getTokenListUrls, supportedChainIds, getContractAddress } from './configs';
-import dotenv from 'dotenv';
 import { CrocSwapDexAbi, CrocQueryAbi, CrocImpactAbi } from './abis/';
 import { MAX_SQRT_PRICE, MIN_SQRT_PRICE, DFLT_SWAP_ARGS } from './constants';
 import { CrocSurplusFlags, encodeSurplusArg } from './encoding/flags';
 import { roundQty, toDisplayQty } from './utils';
 import { AbiCoder } from 'ethers/lib/utils';
-dotenv.config();
 
 export type SwapTokenLogicTokenList = common.Token[];
 export type SwapTokenLogicParams = core.TokenToTokenExactInParams<{
