@@ -186,5 +186,8 @@ export declare enum NetworkId {
 }
   ```
 
-  test with hardhat
-  npx hardhat test src/logics/bex/logic.swap-token.test.ts 
+3. Run test with Hardhat
+  
+```sh 
+npx hardhat test src/logics/bex/logic.swap-token.test.ts 
+```
